@@ -44,6 +44,7 @@
 #include <vector>
 #include <cstdint>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -53,9 +54,6 @@ public:
 	int** matrix;
 public:
     Graph(size_t n_vertex){
-		if(n_vertex % 2 != 0){
-			n_vertex++;
-		}
 		size = n_vertex;
 		matrix = new int* [size];
 		for(size_t i = 0; i < size; i++){
@@ -79,7 +77,7 @@ public:
 			cout << endl;
 		}
 	}
-		
+	
     void AddEdge(size_t from, size_t to){
 			matrix[from][to] = 1;
 			matrix[to][from] = matrix[from][to];
@@ -110,6 +108,13 @@ void Separate(Graph & G, Graph & G1, Graph & G2, Graph & G3){
 		}
 };
 
+void massive(Graph & G, uint64_t * arr){
+		for(size_t i = 0; i < G.size; i++){
+			for(size_t j = 0; j < G.size; j++){
+				arr[i] = arr[i] + G.matrix[i][j]*(pow(2,(G.size-j-1)));
+			}
+		}
+};
 /*
     От приведенного выше класса вам стоит унаследовать 2 потомков, первый будет предоставлять реализацию MITM
     алгоритма, а второй - эвристики.
@@ -132,6 +137,9 @@ class GraphBRAB : public Graph {
 int main(){
 	int size;
 	cin >> size; //5
+	if(size % 2 != 0){
+		size++;
+	}
 	Graph G(size);
 	G.AddEdge(0,2);
 	G.AddEdge(0,4);
@@ -141,6 +149,13 @@ int main(){
 	Graph G2(G.size/2);
 	Graph G3(size - size/2);
 	Separate(G, G1, G2, G3);
+	uint64_t arr[G.size] = {0};
+	cout << endl;
+	massive(G, arr);
+	for(size_t i = 0; i < G.size; i++){
+		cout << arr[i] << endl;
+	}
+	cout << endl;
 	G.print();
 	G1.print();
 	G2.print();

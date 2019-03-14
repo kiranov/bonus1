@@ -100,6 +100,11 @@ void Separate(Graph & G, Graph & G1, Graph & G2, Graph & G3){
 				G2.matrix[j][i] = G.matrix[G.size - G2.size + i][G.size - G2.size + j];
 			}
 		}
+		for(size_t i = 0; i < G3.size; i++){
+			for(size_t j = 0; j < G3.size; j++){
+				G3.matrix[i][j] = G.matrix[i][G.size/2+j];
+			}
+		}
 };
 
 void massive(Graph & G, uint64_t * arr){
@@ -154,6 +159,7 @@ int main(){
 	G.print();
 	G1.print();
 	G2.print();
+	G3.print();
 	return 0;
 }
 */
